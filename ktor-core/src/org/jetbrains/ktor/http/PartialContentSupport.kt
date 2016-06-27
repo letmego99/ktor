@@ -8,7 +8,7 @@ import org.jetbrains.ktor.pipeline.*
 import org.jetbrains.ktor.util.*
 import kotlin.properties.*
 
-object PartialContentSupport : ApplicationFeature<PartialContentSupport.Configuration> {
+object PartialContentSupport : ApplicationFeature<ApplicationCallPipeline, PartialContentSupport.Configuration> {
     override val name = "Ranges support"
     override val key: AttributeKey<Configuration> = AttributeKey(name)
 
@@ -18,11 +18,11 @@ object PartialContentSupport : ApplicationFeature<PartialContentSupport.Configur
         }
     }
 
-    override fun install(application: Application, configure: Configuration.() -> Unit): Configuration {
+    override fun install(pipeline: ApplicationCallPipeline, configure: Configuration.() -> Unit): Configuration {
         val config = Configuration()
         configure(config)
 
-        application.intercept(ApplicationCallPipeline.Infrastructure) { requestNext ->
+        pipeline.intercept(ApplicationCallPipeline.Infrastructure) { requestNext ->
             val rangeSpecifier = call.request.ranges()
             if (rangeSpecifier != null) {
                 if (call.isGetOrHead()) {

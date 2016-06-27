@@ -10,11 +10,6 @@ open class Application(val environment: ApplicationEnvironment) : ApplicationCal
     var closeHooks = CopyOnWriteArrayList<() -> Unit>()
 
     /**
-     * Provides common place to store application-wide attributes
-     */
-    val attributes = Attributes()
-
-    /**
      * Called by host when [Application] is terminated
      */
     open fun dispose() {
