@@ -6,8 +6,7 @@ import org.jetbrains.ktor.features.*
 import org.jetbrains.ktor.util.*
 
 object HeadRequestSupport : ApplicationFeature<ApplicationCallPipeline, Unit> {
-    override val name = "head-request-handler"
-    override val key = AttributeKey<Unit>(name)
+    override val key = AttributeKey<Unit>("Automatic Head Response")
 
     override fun install(pipeline: ApplicationCallPipeline, configure: Unit.() -> Unit) {
         configure(Unit)
