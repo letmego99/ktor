@@ -1,11 +1,12 @@
 package org.jetbrains.ktor.servlet
 
+import org.jetbrains.ktor.application.*
 import org.jetbrains.ktor.host.*
 import org.jetbrains.ktor.http.*
 import org.jetbrains.ktor.nio.*
 import javax.servlet.http.*
 
-class ServletApplicationResponse(val call: ServletApplicationCall, val servletResponse: HttpServletResponse) : BaseApplicationResponse(call) {
+class ServletApplicationResponse(val call: ServletApplicationCall, responsePipeline: RespondPipeline, val servletResponse: HttpServletResponse) : BaseApplicationResponse(call, responsePipeline) {
     override fun setStatus(statusCode: HttpStatusCode) {
         servletResponse.status = statusCode.value
     }
