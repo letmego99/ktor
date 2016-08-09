@@ -22,10 +22,6 @@ internal class NettyApplicationRequest(
         ValuesMap.build(caseInsensitiveKey = true) { request.headers().forEach { append(it.key, it.value) } }
     }
 
-    override val parameters: ValuesMap by lazy {
-        queryParameters + content.get()
-    }
-
     override val queryParameters by lazy {
         parseQueryString(request.uri.substringAfter("?", ""))
     }

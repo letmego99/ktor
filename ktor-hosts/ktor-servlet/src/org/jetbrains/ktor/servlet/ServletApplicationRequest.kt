@@ -12,10 +12,6 @@ import javax.servlet.http.*
 class ServletApplicationRequest(override val call: ServletApplicationCall, val servletRequest: HttpServletRequest) : ApplicationRequest {
     override val local: RequestConnectionPoint = ServletConnectionPoint(servletRequest)
 
-    override val parameters: ValuesMap by lazy {
-        queryParameters + content.get()
-    }
-
     override val queryParameters by lazy {
         servletRequest.queryString?.let { parseQueryString(it) } ?: ValuesMap.Empty
     }

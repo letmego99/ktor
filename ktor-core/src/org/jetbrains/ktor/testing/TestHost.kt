@@ -123,7 +123,6 @@ class TestApplicationCall(application: Application, override val request: TestAp
     }
 
     internal val latch = CountDownLatch(1)
-    override val parameters: ValuesMap get() = request.parameters
 
     override fun close() {
         requestHandled = true
@@ -185,10 +184,6 @@ class TestApplicationRequest(
         }
 
     var multiPartEntries: List<PartData> = emptyList()
-
-    override val parameters: ValuesMap get() {
-        return queryParameters + if (contentType().match(ContentType.Application.FormUrlEncoded)) body.parseUrlEncodedParameters() else ValuesMap.Empty
-    }
 
     override val queryParameters by lazy { parseQueryString(queryString()) }
 
