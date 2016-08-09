@@ -187,8 +187,10 @@ class TestApplicationRequest(
     var multiPartEntries: List<PartData> = emptyList()
 
     override val parameters: ValuesMap get() {
-        return queryParameters() + if (contentType().match(ContentType.Application.FormUrlEncoded)) body.parseUrlEncodedParameters() else ValuesMap.Empty
+        return queryParameters + if (contentType().match(ContentType.Application.FormUrlEncoded)) body.parseUrlEncodedParameters() else ValuesMap.Empty
     }
+
+    override val queryParameters by lazy { parseQueryString(queryString()) }
 
     private var headersMap: MutableMap<String, MutableList<String>>? = hashMapOf()
     fun addHeader(name: String, value: String) {

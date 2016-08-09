@@ -16,7 +16,6 @@ internal class NettyApplicationRequest(
         override val call: ApplicationCall,
         private val request: HttpRequest,
         private val bodyConsumed: Boolean,
-        val urlEncodedParameters: () -> ValuesMap,
         val context: ChannelHandlerContext,
         val drops: LastDropsCollectorHandler?) : ApplicationRequest, Closeable {
     override val headers by lazy {
@@ -24,12 +23,11 @@ internal class NettyApplicationRequest(
     }
 
     override val parameters: ValuesMap by lazy {
-        ValuesMap.build {
-            QueryStringDecoder(request.uri).parameters().forEach {
-                appendAll(it.key, it.value)
-            }
-            appendAll(urlEncodedParameters())
-        }
+        queryParameters + content.get()
+    }
+
+    override val queryParameters by lazy {
+        parseQueryString(request.uri.substringAfter("?", ""))
     }
 
     override val local = NettyConnectionPoint(request, context)

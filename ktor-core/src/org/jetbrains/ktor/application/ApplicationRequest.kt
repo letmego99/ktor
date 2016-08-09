@@ -22,7 +22,10 @@ interface ApplicationRequest {
     /**
      * Parameters for this request
      */
+    @Deprecated("Use queryParameters or content instead")
     val parameters: ValuesMap
+
+    val queryParameters: ValuesMap
 
     /**
      * Headers for this request

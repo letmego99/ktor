@@ -12,4 +12,5 @@ val ApplicationRequest.uri: String get() = origin.uri
 val ApplicationRequest.httpMethod: HttpMethod get() = origin.method
 val ApplicationRequest.httpVersion: String get() = origin.version
 
-fun ApplicationRequest.parameter(name: String): String? = parameters[name]
+@Deprecated("Use ApplicationCall.parameters or quertyParameters instead")
+fun ApplicationRequest.parameter(name: String): String? = call.parameters[name]
