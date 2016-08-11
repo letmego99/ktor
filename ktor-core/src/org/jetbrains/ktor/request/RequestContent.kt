@@ -8,13 +8,13 @@ import java.io.*
 import kotlin.reflect.*
 
 abstract class RequestContent(private val request: ApplicationRequest) {
-    private val contentAsString by lazy { getReadChannel().asInputStream().reader(request.contentCharset() ?: Charsets.ISO_8859_1).readText() }
+    private val contentAsString by lazy { get<ReadChannel>().asInputStream().reader(request.contentCharset() ?: Charsets.ISO_8859_1).readText() }
     private val computedValuesMap: ValuesMap by lazy {
         if (request.contentType().match(ContentType.Application.FormUrlEncoded)) {
             parseQueryString(get<String>())
         } else if (request.contentType().match(ContentType.MultiPart.FormData)) {
             ValuesMap.build {
-                getMultiPartData().parts.filterIsInstance<PartData.FormItem>().forEach { part ->
+                get<MultiPartData>().parts.filterIsInstance<PartData.FormItem>().forEach { part ->
                     part.partName?.let { name ->
                         append(name, part.value)
                     }
