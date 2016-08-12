@@ -794,7 +794,7 @@ abstract class HostTestSuite : HostTestBase() {
     fun testRequestParameters() {
         createAndStartServer {
             get("/*") {
-                call.respond(call.request.parameters.getAll(call.request.path().removePrefix("/")).toString())
+                call.respond(call.request.queryParameters.getAll(call.request.path().removePrefix("/")).toString())
             }
         }
 
